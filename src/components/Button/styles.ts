@@ -20,9 +20,13 @@ export const Container = styled.button<ContainerProps>`
   border-radius: 10px;
   border: 0;
   padding: 0 16px;
-  color: var(--text-primary);
-  min-width: 220px;
 
+  color: ${props =>
+    props.color === 'accent'
+      ? 'var(--background-color)'
+      : 'var(--text-primary)'};
+  min-width: 180px;
+  font-size: 1rem;
   font-weight: 500;
   transition: background-color 0.2s;
 
@@ -30,6 +34,7 @@ export const Container = styled.button<ContainerProps>`
     margin-right: 1rem;
     width: 1.2rem;
     height: 1.2rem;
+    opacity: 0.6;
   }
 
   &:hover {

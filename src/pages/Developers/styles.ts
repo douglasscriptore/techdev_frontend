@@ -6,6 +6,7 @@ export const Container = styled.div`
   display: flex;
   align-items: center;
   margin: 0 auto;
+  flex-direction: column;
 `;
 
 export const SubHeader = styled.div`

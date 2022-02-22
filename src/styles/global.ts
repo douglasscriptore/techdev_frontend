@@ -1,5 +1,5 @@
 import { createGlobalStyle } from 'styled-components';
-
+import 'react-toastify/dist/ReactToastify.css';
 // import "react-perfect-scrollbar/dist/css/styles.css";
 // import "react-loading-skeleton/dist/skeleton.css";
 import { device } from './devices';
@@ -21,6 +21,10 @@ export const GlobalStyle = createGlobalStyle`
 
     --red: #FF0000;
     --red-secondary: #950101;
+    --orange: #E2703A;
+
+    --toastify-icon-color-error:  #950101;
+    --toastify-color-progress-error: #950101;
   }
 
     * {

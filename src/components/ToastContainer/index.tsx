@@ -1,34 +1,27 @@
 import React from 'react';
-import { useTransition } from 'react-spring';
+import { ToastContainer } from './styles';
 
-import { ToastMessage } from '../../hooks/toast';
-
-import Toast from './Toast';
-
-import { Container } from './styles';
-
-interface ToastContainerProps {
-  messages: ToastMessage[];
+// export default function WrappedToastContainer({ className, ...rest }) {
+//   return (
+//     <div className={className}>
+//       <ToastContainer {...rest} />
+//     </div>
+//   )
+// }
+interface WrappedToastContainerProps {
+  className?: string;
+  autoClose?: number;
 }
 
-const ToastContainer: React.FC<ToastContainerProps> = ({ messages }) => {
-  const messagesWithTransitions = useTransition(
-    messages,
-    message => message.id,
-    {
-      from: { right: '-120%', opacity: 0 },
-      enter: { right: '0%', opacity: 1 },
-      leave: { right: '-120%', opacity: 0 },
-    },
-  );
-
+const WrappedToastContainer: React.FC<WrappedToastContainerProps> = ({
+  className,
+  ...rest
+}: WrappedToastContainerProps) => {
   return (
-    <Container>
-      {messagesWithTransitions.map(({ item, key, props }) => (
-        <Toast key={key} style={props} message={item} />
-      ))}
-    </Container>
+    <div className={className}>
+      <ToastContainer {...rest} />
+    </div>
   );
 };
 
-export default ToastContainer;
+export default WrappedToastContainer;

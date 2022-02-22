@@ -4,7 +4,7 @@ export const Container = styled.div`
   display: flex;
   align-items: center;
   cursor: pointer;
-
+  padding: 0 0.5rem;
   h3 {
     font-family: 'Roboto Slab', serif;
     color: var(--text-primary);
