@@ -1,4 +1,5 @@
 export interface DeveloperItem {
+  id: number;
   fullname: string;
   gender: 'masculino' | 'feminino' | 'outro';
   dateofborn: Date;

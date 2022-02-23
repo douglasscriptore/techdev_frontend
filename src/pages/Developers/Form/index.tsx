@@ -19,7 +19,8 @@ import api from '../../../services/api';
 import { LevelItem } from '../../Levels/@types';
 
 import { Container, SubHeader } from '../styles';
-import { Content } from './styles';
+import { FormContent } from './styles';
+
 import { DeveloperItem } from '../@types';
 import getValidationErrors from '../../../utils/getValidationErrors';
 
@@ -45,6 +46,8 @@ const FormData: React.FC = () => {
   const [initialData, setItnitialData] = useState<DevelopersFormData>(
     {} as DevelopersFormData,
   );
+  const [levels, setLevels] = useState<OptionProps[]>([] as OptionProps[]);
+
   // hooks
   const formRef = useRef<FormHandles>(null);
   const history = useHistory();
@@ -89,8 +92,7 @@ const FormData: React.FC = () => {
         );
       }
     } catch (error) {
-      console.log(error);
-      toast.error('Erro inesperado43');
+      toast.error('Erro inesperado');
     } finally {
       setAsyncLoading(false);
     }
@@ -111,14 +113,14 @@ const FormData: React.FC = () => {
 
             .nullable()
             .default(undefined),
-          level: Yup.string().required('Campo obrigatório'),
+          level_id: Yup.string().required('Campo obrigatório'),
           gender: Yup.string().required('Campo obrigatório'),
         });
 
+        await schema.validate(data, { abortEarly: false });
         await api.post(`/developers`, data);
         toast.success('Desenvolvedor cadastrado');
         history.push('/developers');
-        await schema.validate(data, { abortEarly: false });
       } catch (error) {
         if (error instanceof Yup.ValidationError) {
           const errors = getValidationErrors(error);
@@ -153,7 +155,6 @@ const FormData: React.FC = () => {
           level: Yup.string().required('Campo obrigatório'),
           gender: Yup.string().required('Campo obrigatório'),
         });
-        console.log(data.level_id);
         await api.put(`/developers/${id}`, {
           ...data,
           level_id: Number(data.level_id),
@@ -232,6 +233,20 @@ const FormData: React.FC = () => {
     }
   }, [id, loadNiveis]);
 
+  useEffect(() => {
+    api
+      .get('levels', { params: { skip: 0, take: 10 } })
+      .then(response =>
+        setLevels(
+          response.data.data.map((level: LevelItem) => ({
+            value: level.id,
+            label: level.levelname,
+          })),
+        ),
+      )
+      .catch(error => console.log(error));
+  }, []);
+
   return (
     <Container>
       <SubHeader>
@@ -241,7 +256,7 @@ const FormData: React.FC = () => {
         />
       </SubHeader>
 
-      <Content>
+      <FormContent>
         <Form
           ref={formRef}
           onSubmit={(data: DevelopersFormData) =>
@@ -279,7 +294,7 @@ const FormData: React.FC = () => {
               isValidNewOption={(inputValue: string) =>
                 checkIfLevelIsNew(inputValue)
               }
-              // defaultOptions={[{ value: 1, label: 'lala' }]}
+              defaultOptions={levels}
               onChange={(value: OptionProps) => handleCreateLevel(value)}
               createOptionPosition="last"
               loadOptions={loadNiveis}
@@ -304,7 +319,7 @@ const FormData: React.FC = () => {
             <FiSave /> SALVAR
           </Button>
         </Form>
-      </Content>
+      </FormContent>
     </Container>
   );
 };

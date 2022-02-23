@@ -4,7 +4,8 @@ import React, { useMemo, useState } from 'react';
 import DonutChart from 'react-donut-chart';
 
 import ButtonMenu from '../../components/ButtonMenu';
-import { ChartsContent, Container, Content, Left, Right } from './styles';
+import { ChartsContent, Container } from './styles';
+import { Content, Left, Right } from '../../styles/global';
 
 const Dashboard: React.FC = () => {
   /*

@@ -7,6 +7,7 @@ import Dashboard from '../pages/Dashboard';
 import Developers from '../pages/Developers';
 import DeveloperForm from '../pages/Developers/Form';
 import Levels from '../pages/Levels';
+import LevelsForm from '../pages/Levels/Form';
 
 const Routes: React.FC = () => (
   <Switch>
@@ -15,7 +16,9 @@ const Routes: React.FC = () => (
     <Route path="/developers" exact component={Developers} isPrivate />
     <Route path="/developers/new" component={DeveloperForm} isPrivate />
     <Route path="/developers/:id/edit" component={DeveloperForm} isPrivate />
-    <Route path="/levels" component={Levels} isPrivate />
+    <Route path="/levels" exact component={Levels} isPrivate />
+    <Route path="/levels/new" component={LevelsForm} isPrivate />
+    <Route path="/levels/:id/edit" component={LevelsForm} isPrivate />
   </Switch>
 );
 

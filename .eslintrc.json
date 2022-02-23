@@ -23,6 +23,7 @@
   "rules": {
     "import/prefer-default-export": "off",
     "import/no-duplicates": "off",
+    "no-nested-ternary": "off",
     "camelcase": "off",
     "prettier/prettier": "error",
     "react/prop-types": "off",
@@ -35,19 +36,19 @@
         "extensions": [".tsx"]
       }
     ],
-    "@typescript-eslint/explicit-function-return-type": [
-      "error",
-      {
-        "allowExpressions": true
-      }
-    ],
+
+    "@typescript-eslint/explicit-function-return-type": "off",
     "@typescript-eslint/no-explicit-any": "off",
+    "@typescript-eslint/explicit-module-boundary-types": "off",
+    "@typescript-eslint/no-empty-function": "warn",
     "import/extensions": [
       "error",
       "ignorePackages",
       {
-        "tsx": "never",
-        "ts": "never"
+        "js": "never",
+        "jsx": "never",
+        "ts": "never",
+        "tsx": "never"
       }
     ],
     "@typescript-eslint/ban-types": [
