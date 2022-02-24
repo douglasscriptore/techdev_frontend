@@ -16,6 +16,8 @@ import { DeveloperItem } from './@types';
 import api from '../../services/api';
 import Input from '../../components/Input';
 import { useModal } from '../../hooks/modal';
+import DevelopersTableLoader from '../../components/Loaders/DevelopersTableLoader';
+import NoDataMessage from '../../components/NoDataMessage';
 
 const Developers: React.FC = () => {
   const TAKE = 10;
@@ -26,9 +28,9 @@ const Developers: React.FC = () => {
   const [developers, setDevelopers] = useState<DeveloperItem[]>(
     {} as DeveloperItem[],
   );
-
   const [pages, setPages] = useState(0);
   const [page, setPage] = useState(1);
+  const [loading, setLoading] = useState(true);
   /**
    * Hooks
    */
@@ -84,33 +86,40 @@ const Developers: React.FC = () => {
     [developers, hideModal, modalData, showModal, updateModal],
   );
 
-  const findDevelopers = useCallback((name?: string) => {
-    api
-      .get('developers', {
-        params: { name, skip: TAKE * page - TAKE, take: TAKE },
-      })
-      .then(response => {
-        setDevelopers(
-          response.data.data.map((developer: DeveloperItem) => ({
-            ...developer,
-            dateofborn: format(
-              parseISO(developer.dateofborn.toString()),
-              'dd/MM/yyyy',
-            ),
-          })),
-        );
-        setPages(Math.ceil(response.data.count / 10));
-      })
-      .catch(error => {
-        if (error instanceof Error) toast.error(error.message);
-        else toast.error('Erro Inesperado');
-      });
-  }, []);
+  const findDevelopers = useCallback(
+    (name?: string) => {
+      api
+        .get('developers', {
+          params: { name, skip: TAKE * page - TAKE, take: TAKE },
+        })
+        .then(response => {
+          setDevelopers(
+            response.data.data.map((developer: DeveloperItem) => ({
+              ...developer,
+              dateofborn: format(
+                parseISO(developer.dateofborn.toString()),
+                'dd/MM/yyyy',
+              ),
+            })),
+          );
+          setPages(Math.ceil(response.data.count / 10));
+        })
+        .catch(error => {
+          if (error instanceof Error) toast.error(error.message);
+          else toast.error('Erro Inesperado');
+        })
+        .finally(() => {
+          setLoading(false);
+        });
+    },
+    [page],
+  );
   /**
    * USE EFFECT
    */
 
   useEffect(() => {
+    setLoading(true);
     const delayDebounce = setTimeout(() => {
       findDevelopers(searchDeveloperTerm);
     }, 500);
@@ -142,39 +151,43 @@ const Developers: React.FC = () => {
             onClick={pageClicked => setPage(pageClicked)}
           />
         </ListHeader>
-
-        <ul>
-          {developers &&
-            developers.length > 0 &&
-            developers.map(developer => (
-              <Developer
-                key={developer.id}
-                // onClick={() => handleEdit(developer.id)}
-              >
-                <Avatar name={developer.fullname} round size="48" />
-                <section>
-                  <div>
-                    <span>{developer.fullname}</span>
-                    <strong>
-                      {developer.dateofborn}
-                      <p>{developer.age} anos</p>
-                    </strong>
-                  </div>
-                  <div>
-                    <span className="flag">{developer.level?.levelname}</span>
-                  </div>
-                  <div className="actions">
-                    <button onClick={() => handleEdit(developer.id)}>
-                      <FiEdit />
-                    </button>
-                    <button onClick={event => handleDelete(event, developer)}>
-                      <FiTrash />
-                    </button>
-                  </div>
-                </section>
-              </Developer>
-            ))}
-        </ul>
+        {loading && <DevelopersTableLoader />}
+        {!loading && (
+          <ul>
+            {developers && developers.length > 0 ? (
+              developers.map(developer => (
+                <Developer
+                  key={developer.id}
+                  // onClick={() => handleEdit(developer.id)}
+                >
+                  <Avatar name={developer.fullname} round size="48" />
+                  <section>
+                    <div>
+                      <span>{developer.fullname}</span>
+                      <strong>
+                        {developer.dateofborn}
+                        <p>{developer.age} anos</p>
+                      </strong>
+                    </div>
+                    <div>
+                      <span className="flag">{developer.level?.levelname}</span>
+                    </div>
+                    <div className="actions">
+                      <button onClick={() => handleEdit(developer.id)}>
+                        <FiEdit />
+                      </button>
+                      <button onClick={event => handleDelete(event, developer)}>
+                        <FiTrash />
+                      </button>
+                    </div>
+                  </section>
+                </Developer>
+              ))
+            ) : (
+              <NoDataMessage message="Nenhum desenvolvedor localizado" />
+            )}
+          </ul>
+        )}
       </Content>
     </Container>
   );

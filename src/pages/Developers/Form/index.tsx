@@ -1,6 +1,6 @@
 /* eslint-disable consistent-return */
 import React, { useCallback, useEffect, useRef, useState } from 'react';
-import { useHistory, useParams } from 'react-router-dom';
+import { useHistory, useLocation, useParams } from 'react-router-dom';
 import { FormHandles } from '@unform/core';
 import { Form } from '@unform/web';
 import { differenceInYears, parseISO } from 'date-fns';
@@ -23,6 +23,7 @@ import { FormContent } from './styles';
 
 import { DeveloperItem } from '../@types';
 import getValidationErrors from '../../../utils/getValidationErrors';
+import TextArea from '../../../components/TextArea';
 
 interface DevelopersFormData extends Omit<DeveloperItem, 'level'> {
   level_id: any;
@@ -38,6 +39,10 @@ interface ParamsProps {
   id: string;
 }
 
+interface locationsProps {
+  originPage?: string;
+}
+
 const FormData: React.FC = () => {
   // states
   const [asyncLoading, setAsyncLoading] = useState(false);
@@ -51,6 +56,7 @@ const FormData: React.FC = () => {
   // hooks
   const formRef = useRef<FormHandles>(null);
   const history = useHistory();
+  const location = useLocation<locationsProps>();
   const { id } = useParams<ParamsProps>();
 
   const gendersOptions = [
@@ -152,9 +158,10 @@ const FormData: React.FC = () => {
 
             .nullable()
             .default(undefined),
-          level: Yup.string().required('Campo obrigatório'),
+          level_id: Yup.string().required('Campo obrigatório'),
           gender: Yup.string().required('Campo obrigatório'),
         });
+
         await api.put(`/developers/${id}`, {
           ...data,
           level_id: Number(data.level_id),
@@ -251,7 +258,11 @@ const FormData: React.FC = () => {
     <Container>
       <SubHeader>
         <ButtonBack
-          goTo="/developers"
+          goTo={
+            location.state?.originPage
+              ? location.state.originPage
+              : '/developers'
+          }
           title={`${id ? 'Editar Desenvolvedor' : 'Novo Desenvolvedor'}`}
         />
       </SubHeader>
@@ -308,6 +319,12 @@ const FormData: React.FC = () => {
             options={gendersOptions}
             label="Sexo:"
             disabled={loadingSubmit}
+          />
+
+          <TextArea
+            label="Hobby:"
+            name="hobby"
+            placeholder="Ex: Jogar futebol"
           />
 
           <Button

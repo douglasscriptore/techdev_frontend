@@ -24,36 +24,38 @@ const Modal: React.FC = () => {
   });
 
   return (
-    <Wrapper visible={modalData.visible}>
-      <ModalContainer ref={modalRef}>
-        {modalData.loading ? (
-          <LoaderContent>
-            <HashLoader color="#21E6C1" />
-            <span>Aguarde...</span>
-          </LoaderContent>
-        ) : (
-          <>
-            <header>
-              <h4>{modalData.title}</h4>
-              <button onClick={hideModal}>
-                <FiX />
-              </button>
-            </header>
-            <Content>
-              {!!modalData.component && <>{modalData.component}</>}
-              <div className="actions">
-                <Button onClick={hideModal}>FECHAR</Button>
-                <Button color="accent" onClick={modalData.callback}>
-                  {modalData.confirmButtonText
-                    ? modalData.confirmButtonText
-                    : 'CONFIRMAR'}
-                </Button>
-              </div>
-            </Content>
-          </>
-        )}
-      </ModalContainer>
-    </Wrapper>
+    (modalData.visible && (
+      <Wrapper visible={modalData.visible}>
+        <ModalContainer ref={modalRef}>
+          {modalData.loading ? (
+            <LoaderContent>
+              <HashLoader color="#21E6C1" />
+              <span>Aguarde...</span>
+            </LoaderContent>
+          ) : (
+            <>
+              <header>
+                <h4>{modalData.title}</h4>
+                <button onClick={hideModal}>
+                  <FiX />
+                </button>
+              </header>
+              <Content>
+                {!!modalData.component && <>{modalData.component}</>}
+                <div className="actions">
+                  <Button onClick={hideModal}>FECHAR</Button>
+                  <Button color="accent" onClick={modalData.callback}>
+                    {modalData.confirmButtonText
+                      ? modalData.confirmButtonText
+                      : 'CONFIRMAR'}
+                  </Button>
+                </div>
+              </Content>
+            </>
+          )}
+        </ModalContainer>
+      </Wrapper>
+    )) || <></>
   );
 };
 

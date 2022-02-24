@@ -4,6 +4,7 @@ import { Wrapped as Input } from '../../../components/Input/styles';
 import { Wrapped as DatePicker } from '../../../components/DatePicker/styles';
 import { Wrapped as AsyncSelectCreatable } from '../../../components/AsyncSelectCreatable/styles';
 import { Wrapped as RadioBadge } from '../../../components/RadioBadge/styles';
+import { Wrapped as TextArea } from '../../../components/TextArea/styles';
 
 export const Container = styled.div`
   width: 100%;
@@ -27,7 +28,7 @@ export const FormContent = styled.main`
     max-width: 700px;
     margin: 0 auto;
 
-    ${Input},${DatePicker}, ${AsyncSelectCreatable},${RadioBadge} {
+    ${Input},${DatePicker}, ${AsyncSelectCreatable},${RadioBadge},${TextArea} {
       margin-top: 1rem;
 
       &:first-of-type {

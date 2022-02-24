@@ -16,6 +16,8 @@ import { LevelItem } from './@types';
 import api from '../../services/api';
 import Input from '../../components/Input';
 import { useModal } from '../../hooks/modal';
+import LevelsTableLoader from '../../components/Loaders/LevelsTableLoader';
+import NoDataMessage from '../../components/NoDataMessage';
 
 const Levels: React.FC = () => {
   const TAKE = 10;
@@ -24,6 +26,7 @@ const Levels: React.FC = () => {
    */
   const [searchDeveloperTerm, setSearchDeveloperTerm] = useState('');
   const [levels, setLevels] = useState<LevelItem[]>({} as LevelItem[]);
+  const [loading, setLoading] = useState(true);
 
   const [pages, setPages] = useState(0);
   const [page, setPage] = useState(1);
@@ -75,7 +78,7 @@ const Levels: React.FC = () => {
             if (error instanceof Error) toast.error(error.message);
             else toast.error('Erro Inesperado');
           } finally {
-            updateModal({ ...modalData, loading: false });
+            updateModal({ ...modalData, loading: true });
           }
         },
       });
@@ -96,6 +99,9 @@ const Levels: React.FC = () => {
         .catch(error => {
           if (error instanceof Error) toast.error(error.message);
           else toast.error('Erro Inesperado');
+        })
+        .finally(() => {
+          setLoading(false);
         });
     },
     [page],
@@ -105,6 +111,7 @@ const Levels: React.FC = () => {
    */
 
   useEffect(() => {
+    setLoading(true);
     const delayDebounce = setTimeout(() => {
       findLevels(searchDeveloperTerm);
     }, 500);
@@ -136,36 +143,40 @@ const Levels: React.FC = () => {
             onClick={pageClicked => setPage(pageClicked)}
           />
         </ListHeader>
-
-        <ul>
-          {levels &&
-            levels.length > 0 &&
-            levels.map(level => (
-              <Level
-                key={level.id}
-                // onClick={() => handleEdit(developer.id)}
-              >
-                <section>
-                  <div>
-                    <span>{level.levelname}</span>
-                  </div>
-                  <div>
-                    <span className="flag">
-                      {level.developersCount} Desenvolvedores
-                    </span>
-                  </div>
-                  <div className="actions">
-                    <button onClick={() => handleEdit(level.id)}>
-                      <FiEdit />
-                    </button>
-                    <button onClick={event => handleDelete(event, level)}>
-                      <FiTrash />
-                    </button>
-                  </div>
-                </section>
-              </Level>
-            ))}
-        </ul>
+        {loading && <LevelsTableLoader />}
+        {!loading && (
+          <ul>
+            {levels && levels.length > 0 ? (
+              levels.map(level => (
+                <Level
+                  key={level.id}
+                  // onClick={() => handleEdit(developer.id)}
+                >
+                  <section>
+                    <div>
+                      <span>{level.levelname}</span>
+                    </div>
+                    <div>
+                      <span className="flag">
+                        {level.developersCount} Desenvolvedores
+                      </span>
+                    </div>
+                    <div className="actions">
+                      <button onClick={() => handleEdit(level.id)}>
+                        <FiEdit />
+                      </button>
+                      <button onClick={event => handleDelete(event, level)}>
+                        <FiTrash />
+                      </button>
+                    </div>
+                  </section>
+                </Level>
+              ))
+            ) : (
+              <NoDataMessage message="Nenhum nível localizado" />
+            )}
+          </ul>
+        )}
       </Content>
     </Container>
   );
