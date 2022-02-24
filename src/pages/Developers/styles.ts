@@ -43,6 +43,7 @@ export const Developer = styled.li`
   align-items: center;
   padding: 0.6rem;
   background-color: var(--background);
+  box-shadow: 0px 0px 2px 0px rgba(35, 62, 100, 0.8);
   border-radius: 0.65rem;
   margin-top: 0.4rem;
   cursor: pointer;

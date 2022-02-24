@@ -1,11 +1,14 @@
 import React from 'react';
 import ContentLoader from 'react-content-loader';
 
+interface DeveloperProps {
+  length?: number;
+}
 const TableRow = (props: any) => {
   return (
     <ContentLoader
       speed={2}
-      // width={67}
+      width="100%"
       height={69}
       viewBox="0 0 100% 69"
       {...props}
@@ -15,10 +18,10 @@ const TableRow = (props: any) => {
   );
 };
 
-const DevelopersTableLoader: React.FC = () => {
+const DevelopersTableLoader: React.FC<DeveloperProps> = ({ length = 5 }) => {
   return (
     <>
-      {Array(5)
+      {Array(length)
         .fill('')
         .map((e, i) => (
           <TableRow

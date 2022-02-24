@@ -45,6 +45,7 @@ export const Level = styled.li`
   background-color: var(--background);
   border-radius: 0.65rem;
   margin-top: 0.4rem;
+  box-shadow: 0px 0px 2px 0px rgba(35, 62, 100, 0.8);
   cursor: pointer;
 
   transition: transform 0.2s ease-in-out;

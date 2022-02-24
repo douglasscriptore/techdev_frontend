@@ -5,11 +5,13 @@ export const Container = styled.div`
   display: flex;
   align-items: center;
   justify-content: flex-start;
+
   button {
     width: 100%;
     display: flex;
     align-items: center;
     justify-content: space-between;
+    box-shadow: 0px 0px 2px 0px rgba(35, 62, 100, 0.8);
     border: 0;
     background: var(--background);
     border-radius: 0.5rem;

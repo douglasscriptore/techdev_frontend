@@ -41,7 +41,7 @@ export const Container = styled.div`
   flex-direction: column;
   align-items: center;
   padding: 1rem;
-  box-shadow: 0px 0px 2px 0px rgba(0, 0, 0, 0.4);
+
   img {
     width: 16rem;
   }

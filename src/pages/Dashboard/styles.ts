@@ -91,6 +91,7 @@ export const Widget = styled.section`
   width: 12rem;
   height: 9rem;
   background-color: var(--background);
+  box-shadow: 0px 0px 2px 0px rgba(35, 62, 100, 0.8);
   span {
     font-size: 4rem;
     line-height: 5rem;

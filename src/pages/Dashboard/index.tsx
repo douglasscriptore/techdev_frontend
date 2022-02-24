@@ -20,6 +20,7 @@ import { DeveloperItem } from '../Developers/@types';
 import api from '../../services/api';
 import { Developer } from '../Developers/styles';
 import NoDataMessage from '../../components/NoDataMessage';
+import DevelopersTableLoader from '../../components/Loaders/DevelopersTableLoader';
 
 interface LastestDevItem {
   id: number;
@@ -143,47 +144,49 @@ const Dashboard: React.FC = () => {
               <h2>Ultimos desenvolvedores cadastrados</h2>
             </header>
             <article>
-              <ul>
-                {!loadingDevs &&
-                !!latestDevelopers &&
-                latestDevelopers.length > 0 ? (
-                  latestDevelopers.map(developer => (
-                    <Developer
-                      key={developer.id}
-                      onClick={() =>
-                        handleGoTo(`/developers/${developer.id}/edit`)
-                      }
-                    >
-                      <Avatar name={developer.fullname} round size="48" />
+              {loadingDevs && <DevelopersTableLoader length={3} />}
+              {!loadingDevs && (
+                <ul>
+                  {!!latestDevelopers && latestDevelopers.length > 0 ? (
+                    latestDevelopers.map(developer => (
+                      <Developer
+                        key={developer.id}
+                        onClick={() =>
+                          handleGoTo(`/developers/${developer.id}/edit`)
+                        }
+                      >
+                        <Avatar name={developer.fullname} round size="48" />
 
-                      <section>
-                        <div>
-                          <span>{developer.fullname}</span>
-                          <strong>{developer.formattedDate}</strong>
-                        </div>
-                        <div>
-                          <span className="flag">
-                            {developer.level?.levelname}
-                          </span>
-                        </div>
-                      </section>
-                    </Developer>
-                  ))
-                ) : (
-                  <NoDataMessage message=" ">
-                    Nenhum desenvolvedor cadastrado
-                    <a
-                      href=""
-                      onClick={() => {
-                        handleGoTo('/developers/new');
-                      }}
-                    >
-                      clique aqui
-                    </a>
-                    para cadastrar
-                  </NoDataMessage>
-                )}
-              </ul>
+                        <section>
+                          <div>
+                            <span>{developer.fullname}</span>
+                            <strong>{developer.formattedDate}</strong>
+                          </div>
+                          <div>
+                            <span className="flag">
+                              {developer.level?.levelname}
+                            </span>
+                          </div>
+                        </section>
+                      </Developer>
+                    ))
+                  ) : (
+                    <NoDataMessage message=" ">
+                      Nenhum desenvolvedor cadastrado
+                      <a
+                        href=""
+                        onClick={() => {
+                          handleGoTo('/developers/new');
+                        }}
+                      >
+                        clique aqui
+                      </a>
+                      para cadastrar
+                    </NoDataMessage>
+                  )}
+                </ul>
+              )}
+              )
             </article>
           </section>
         </Left>
