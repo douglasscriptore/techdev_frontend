@@ -5,7 +5,7 @@ import { toast } from 'react-toastify';
 import { FormHandles } from '@unform/core';
 import { Form } from '@unform/web';
 import format from 'date-fns/format';
-import { parse, parseISO } from 'date-fns';
+import { parseISO } from 'date-fns';
 import Avatar from 'react-avatar';
 import Button from '../../components/Button';
 import ButtonBack from '../../components/ButtonBack';

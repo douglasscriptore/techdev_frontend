@@ -3,7 +3,7 @@ import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { useHistory, useLocation, useParams } from 'react-router-dom';
 import { FormHandles } from '@unform/core';
 import { Form } from '@unform/web';
-import { differenceInYears, parseISO } from 'date-fns';
+import { differenceInYears } from 'date-fns';
 import { toast } from 'react-toastify';
 import { FiSave } from 'react-icons/fi';
 import * as Yup from 'yup';
@@ -14,7 +14,6 @@ import ButtonBack from '../../../components/ButtonBack';
 import DatePicker from '../../../components/DatePicker';
 import Input from '../../../components/Input';
 import RadioBadge from '../../../components/RadioBadge';
-import { useToast } from '../../../hooks/toast';
 import api from '../../../services/api';
 import { LevelItem } from '../../Levels/@types';
 

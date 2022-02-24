@@ -1,7 +1,5 @@
-import styled, { createGlobalStyle } from 'styled-components';
+import { createGlobalStyle } from 'styled-components';
 import 'react-toastify/dist/ReactToastify.css';
-// import "react-perfect-scrollbar/dist/css/styles.css";
-// import "react-loading-skeleton/dist/skeleton.css";
 import { device } from './devices';
 
 export const GlobalStyle = createGlobalStyle`
