@@ -186,7 +186,6 @@ const Dashboard: React.FC = () => {
                   )}
                 </ul>
               )}
-              )
             </article>
           </section>
         </Left>
