@@ -198,7 +198,10 @@ const FormData: React.FC = () => {
         const response = await api.post('/levels', {
           levelname: newLevel.label,
         });
-        formRef.current?.setFieldValue('level_id', response.data.id);
+        formRef.current?.setFieldValue('level_id', {
+          value: response.data.id,
+          label: response.data.levelname,
+        });
         toast.success(`Nível ${newLevel.label} criado`);
       } catch (error) {
         if (error instanceof Error) toast.error(error.message);

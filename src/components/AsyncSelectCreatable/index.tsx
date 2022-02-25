@@ -58,7 +58,9 @@ const AsyncSelect: React.FC<Props> = ({
         }
       },
       setValue: (ref, value) => {
-        ref.select.select.setValue(value || null);
+        if (!value) return null;
+        console.log(ref.select.select.select);
+        return ref.select.select.select.setValue(value);
       },
       clearValue(ref: any) {
         ref.select.select.setValue();
