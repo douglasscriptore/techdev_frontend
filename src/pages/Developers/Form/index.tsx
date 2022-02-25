@@ -195,7 +195,10 @@ const FormData: React.FC = () => {
     // eslint-disable-next-line no-underscore-dangle
     if (!!newLevel && newLevel.__isNew__) {
       try {
-        await api.post('/levels', { levelname: newLevel.label });
+        const response = await api.post('/levels', {
+          levelname: newLevel.label,
+        });
+        formRef.current?.setFieldValue('level_id', response.data.id);
         toast.success(`Nível ${newLevel.label} criado`);
       } catch (error) {
         if (error instanceof Error) toast.error(error.message);
